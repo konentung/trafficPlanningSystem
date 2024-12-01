@@ -10,7 +10,7 @@ matplotlib.use('Agg')
 
 app = Flask(__name__)
 
-# 定義包含平均速率的城市道路網絡（簡化版本）
+# 定義城市道路
 roads = {
     'accident1': [('K', 50), ('N', 40)],
     'hospital1': [('B', 10), ('A', 30), ('L', 25), ('C', 20)],
@@ -31,7 +31,6 @@ roads = {
     'N': [('A', 50), ('L', 35), ('accident1', 40)],
 }
 
-# 創建有向圖
 original_graph = nx.DiGraph()
 for node, neighbors in roads.items():
     for neighbor, speed in neighbors:
@@ -46,6 +45,7 @@ def index():
     return render_template('index.html', nodes=nodes_to_block, hospitals=hospitals, accident_sites=accident_sites, all_nodes=nodes)
 
 def visualize_path(graph, path, title):
+    # 繪製圖並以 Base64 格式返回圖片
     plt.figure(figsize=(16, 12))
     pos = nx.spring_layout(graph, seed=42, k=3, iterations=300)
 
@@ -106,6 +106,54 @@ def find_path():
 
     img_base64 = visualize_path(graph, path, "城市道路網絡視覺化") if path else None
     return render_template('result.html', result=result, map_image=img_base64)
+
+@app.route('/find_nearest_hospital', methods=['POST'])
+def find_nearest_hospital():
+    current_node = request.form['current_node']
+    blocked_nodes = request.form.getlist('blocked_nodes')
+    method = request.form['method']
+
+    graph = original_graph.copy()
+    for node in blocked_nodes:
+        if graph.has_node(node):
+            graph.remove_node(node)
+
+    hospitals = [node for node in graph.nodes if 'hospital' in node]
+
+    nearest_hospital = None
+    nearest_path = None
+    min_weight = float('inf')
+
+    try:
+        for hospital in hospitals:
+            if method == 'bfs':
+                path = nx.shortest_path(graph, source=current_node, target=hospital)
+                if nearest_path is None or len(path) < len(nearest_path):
+                    nearest_hospital = hospital
+                    nearest_path = path
+            elif method == 'dfs':
+                paths = list(nx.all_simple_paths(graph, source=current_node, target=hospital))
+                path = paths[0] if paths else None
+                if path and (nearest_path is None or len(path) < len(nearest_path)):
+                    nearest_hospital = hospital
+                    nearest_path = path
+            elif method == 'dijkstra':
+                path = nx.dijkstra_path(graph, source=current_node, target=hospital, weight='weight')
+                total_weight = nx.dijkstra_path_length(graph, source=current_node, target=hospital, weight='weight')
+                if total_weight < min_weight:
+                    min_weight = total_weight
+                    nearest_hospital = hospital
+                    nearest_path = path
+
+        if nearest_path:
+            result = f"使用 {method} 找到從 {current_node} 到最近的hospital {nearest_hospital} 的路徑: {' -> '.join(nearest_path)}"
+            img_base64 = visualize_path(graph, nearest_path, "最近 hospital 的路徑視覺化")
+            return render_template('result.html', result=result, map_image=img_base64)
+
+    except nx.NetworkXNoPath:
+        result = "找不到可行的路徑。"
+
+    return render_template('result.html', result=result, map_image=None)
 
 if __name__ == '__main__':
     app.run(debug=True)
