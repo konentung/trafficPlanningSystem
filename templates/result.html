@@ -12,11 +12,10 @@
     </header>
 
     <div class="container">
-        <p class="result-text">{{ result|safe }}</p>
+        <p class="result-text">{{ result }}</p>
         {% if map_image %}
-            <img src="{{ url_for('static', filename=map_image) }}" alt="路徑地圖" class="result-image">
+            <img src="data:image/png;base64,{{ map_image }}" alt="路徑地圖" class="result-image">
         {% endif %}
-
         <br>
         <a href="/" class="back-link">返回首頁</a>
     </div>
