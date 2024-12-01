@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>城市道路網絡路徑查找</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>城市道路網絡路徑查找</h1>
+    </header>
+
+    <div class="container">
+        <!-- 查找起點到終點的路徑 -->
+        <div class="form-section">
+            <h2>查找起點到終點的路徑</h2>
+            <form action="/find_path" method="post">
+                <div class="form-group">
+                    <label for="start">選擇起點 (醫院):</label>
+                    <select name="start" id="start">
+                        {% for node in hospitals %}
+                            <option value="{{ node }}">{{ node }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="goal">選擇終點 (事故地點):</label>
+                    <select name="goal" id="goal">
+                        {% for node in accident_sites %}
+                            <option value="{{ node }}">{{ node }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="blocked_nodes">選擇封鎖的路口:</label>
+                    <div class="checkbox-group">
+                        {% for node in nodes %}
+                            <label><input type="checkbox" name="blocked_nodes" value="{{ node }}"> {{ node }}</label><br>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="method">選擇搜尋方法:</label>
+                    <select name="method" id="method">
+                        <option value="bfs">BFS (廣度優先搜尋)</option>
+                        <option value="dfs">DFS (深度優先搜尋)</option>
+                        <option value="dijkstra">Dijkstra (基於權重的最短路徑)</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn">查找路徑</button>
+            </form>
+        </div>
+
+        <hr>
+
+        <!-- 查找當前位置到最近醫院的路徑 -->
+        <div class="form-section">
+            <h2>查找最近的醫院路徑</h2>
+            <form action="/find_nearest_hospital" method="post">
+                <div class="form-group">
+                    <label for="current_node">選擇當前所在位置:</label>
+                    <select name="current_node" id="current_node">
+                        {% for node in all_nodes %}
+                            <option value="{{ node }}">{{ node }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="blocked_nodes_nearest">選擇封鎖的路口:</label>
+                    <div class="checkbox-group">
+                        {% for node in nodes %}
+                            <label><input type="checkbox" name="blocked_nodes" value="{{ node }}"> {{ node }}</label><br>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="method_nearest">選擇搜尋方法:</label>
+                    <select name="method" id="method_nearest">
+                        <option value="bfs">BFS (廣度優先搜尋)</option>
+                        <option value="dfs">DFS (深度優先搜尋)</option>
+                        <option value="dijkstra">Dijkstra (基於權重的最短路徑)</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn">查找最近的醫院路徑</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 城市道路網絡路徑查找系統 By 董佳和</p>
+    </footer>
+</body>
+</html>

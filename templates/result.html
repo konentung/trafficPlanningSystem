@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>搜尋結果</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>搜尋結果</h1>
+    </header>
+
+    <div class="container">
+        <p class="result-text">{{ result|safe }}</p>
+        {% if map_image %}
+            <img src="{{ url_for('static', filename=map_image) }}" alt="路徑地圖" class="result-image">
+        {% endif %}
+
+        <br>
+        <a href="/" class="back-link">返回首頁</a>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 城市道路網絡路徑查找系統 By 董佳和</p>
+    </footer>
+</body>
+</html>

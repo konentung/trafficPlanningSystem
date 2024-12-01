@@ -1,0 +1,119 @@
+/* 設置通用樣式 */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    background-color: #f7f9fc;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* 頁頭樣式 */
+header {
+    background-color: #2a9d8f;
+    color: #fff;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.container {
+    width: 85%;
+    max-width: 1100px;
+    margin: 3rem auto;
+    background: #fff;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* 通用標題樣式 */
+h1, h2 {
+    color: #264653;
+    font-weight: bold;
+}
+
+/* 結果文字樣式 */
+.result-text {
+    font-size: 1.4rem;
+    color: #264653;
+    margin-bottom: 2rem;
+}
+
+/* 圖片樣式 */
+.result-image {
+    margin-top: 30px;
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    border: 3px solid #e76f51;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* 返回鏈接按鈕樣式 */
+.back-link {
+    display: inline-block;
+    margin-top: 30px;
+    text-decoration: none;
+    color: #e76f51;
+    font-weight: bold;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    background-color: #2a9d8f;
+    color: #fff;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.back-link:hover {
+    background-color: #264653;
+    color: #fff;
+}
+
+/* 表單按鈕樣式 */
+.btn {
+    background-color: #2a9d8f;
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    font-size: 1rem;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #e76f51;
+}
+
+/* footer樣式 */
+footer {
+    text-align: center;
+    padding: 1.5rem;
+    background-color: #264653;
+    color: #fff;
+    margin-top: 40px; /* 確保頁腳與內容間有足夠的距離 */
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* 響應式樣式 */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        margin: 2rem auto;
+        padding: 1.5rem;
+    }
+
+    h1, h2, .result-text {
+        font-size: 1.4rem;
+    }
+
+    .back-link {
+        font-size: 1.1rem;
+    }
+    
+    .btn {
+        width: 100%;
+        padding: 1rem;
+    }
+}
