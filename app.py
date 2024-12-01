@@ -48,13 +48,7 @@ def index():
     return render_template('index.html', nodes=nodes_to_block, hospitals=hospitals, accident_sites=accident_sites, all_nodes=nodes)
 
 # 當路徑可視化時繪製圖
-def visualize_path(graph, path, image_path, title):
-    # 添加字型檔案
-    matplotlib.font_manager.fontManager.addfont('./static/TaipeiSansTCBeta-Regular.ttf')
-    # 設定字型為 Taipei Sans TC Beta
-    matplotlib.rc('font', family='Taipei Sans TC Beta')
-    plt.rcParams['font.sans-serif'] = ['Taipei Sans TC Beta']
-    
+def visualize_path(graph, path, image_path, title):    
     # 繪製圖並顯示最短路徑
     plt.figure(figsize=(16, 12))  # 增大圖的大小，讓節點間更分散
     pos = nx.spring_layout(graph, seed=42, k=3, iterations=300)  # 增加 k 值和 iterations，確保節點之間間距增大
